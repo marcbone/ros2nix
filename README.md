@@ -271,7 +271,7 @@ kernel of your host system.
 ```
 usage: ros2nix [-h] [--output OUTPUT | --output-as-ros-pkg-name |
                --output-as-nix-pkg-name | --output-as-pkg-dir]
-               [--output-dir OUTPUT_DIR] [--fetch] [--fetch-external]
+               [--output-dir OUTPUT_DIR] [--fetch] [--fetch-in-flake-inputs]
                [--use-flake-input-rev] [--use-per-package-src]
                [--patches | --no-patches] [--distro DISTRO]
                [--src-param SRC_PARAM] [--src-param-set SRC_PARAM_SET]
@@ -317,13 +317,14 @@ options:
                         determined from the local git work tree. sourceRoot
                         attribute is set if needed and not overridden by
                         --source-root. (default: False)
-  --fetch-external      Determines the source code structure from git, but the
-                        code is passed as a set of inputs. Use together with
-                        --src-param-set. (default: False)
+  --fetch-in-flake-inputs
+                        Determines the package structure from git, but the
+                        code is passed as a set of flake inputs. Requires
+                        --flake or --no-default. (default: False)
   --use-flake-input-rev
                         Hardcode the commit of the github repo in the flake
                         input. Has only an effect if used together with
-                        --fetch-external and --flake (default: False)
+                        --fetch-in-flake-inputs and --flake (default: False)
   --use-per-package-src
                         When using --fetch, fetch only the package sub-
                         directory instead of the whole repo. For repos with
@@ -346,7 +347,8 @@ options:
   --src-param-set SRC_PARAM_SET
                         Similar to --src-param, but the sources are a set of
                         sources, indexed by package name. Only has an effect
-                        when used with --fetch-external. (default: rosSources)
+                        when used with --fetch-in-flake-inputs. (default:
+                        rosSources)
   --source-root SOURCE_ROOT
                         Set sourceRoot attribute value in the generated Nix
                         expression. Substring '{package_name}' gets replaced
@@ -370,8 +372,9 @@ options:
                         Dependencies to exclude from the generated Nix
                         expressions (default: [])
   --flake               Generate top-level flake.nix instead of default.nix.
-                        Use with --fetch if some package.xml files are outside
-                        of the flake repo (default: False)
+                        Use with --fetch or --fetch-in-flake-inputs if some
+                        package.xml files are outside of the flake repo
+                        (default: False)
   --default, --no-default
                         Enforce/suppress generation of default.nix (default:
                         None)
