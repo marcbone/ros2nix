@@ -284,7 +284,6 @@ usage: ros2nix [-h] [--output OUTPUT | --output-as-ros-pkg-name |
                [--default | --no-default] [--overlay | --no-overlay]
                [--packages | --no-packages] [--shell | --no-shell]
                [--nix-ros-overlay FLAKEREF] [--nixfmt] [--compare]
-               [--omit-output-dir-from-cmdline]
                [--copyright-holder COPYRIGHT_HOLDER] [--license LICENSE]
                package.xml [package.xml ...]
 
@@ -395,11 +394,6 @@ options:
                         file would change existing files. Exit with exit code
                         2 if a change is detected. Useful for CI. (default:
                         False)
-  --omit-output-dir-from-cmdline
-                        Omit --output-dir argument from the command line that
-                        is included in generated files. This helps ensure
-                        reproducible output when different users run the tool
-                        with different output directories. (default: False)
   --copyright-holder COPYRIGHT_HOLDER
                         Copyright holder of the generated Nix expressions.
                         (default: None)

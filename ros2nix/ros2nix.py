@@ -494,13 +494,6 @@ def ros2nix(args):
     )
 
     parser.add_argument(
-        "--omit-output-dir-from-cmdline",
-        action="store_true",
-        help="Omit --output-dir argument from the command line that is included in generated files. "
-             "This helps ensure reproducible output when different users run the tool with different output directories.",
-    )
-
-    parser.add_argument(
         "--copyright-holder", help="Copyright holder of the generated Nix expressions."
     )
     parser.add_argument(
@@ -528,30 +521,16 @@ def ros2nix(args):
     if args.patches and not fetch_git:
         err("--patches cannot be used without --fetch or --fetch-in-flake-inputs")
         return 1
-    # Build the command line for inclusion in generated files
-    filtered_args = []
-    skip_next = False
 
-    for i, arg in enumerate(sys.argv[1:]):
-        if skip_next:
-            skip_next = False
-            continue
-
-        # Always exclude package.xml files and --compare
-        if (arg.endswith("package.xml") and os.path.isfile(arg)) or arg == "--compare":
-            continue
-
-        # Optionally exclude --output-dir and its value
-        if args.omit_output_dir_from_cmdline:
-            if arg == "--output-dir":
-                skip_next = True  # Skip the next argument (the directory path)
-                continue
-            if arg.startswith("--output-dir="):
-                continue
-
-        filtered_args.append(arg)
-
-    our_cmd_line = " ".join([os.path.basename(sys.argv[0])] + filtered_args)
+    our_cmd_line = " ".join(
+        [os.path.basename(sys.argv[0])]
+        + [
+            arg
+            for arg in sys.argv[1:]
+            if not (arg.endswith("package.xml") and os.path.isfile(arg))
+            and arg != "--compare"
+        ]
+    )
 
     expressions: dict[str, str] = {}
     git_cache = {}
