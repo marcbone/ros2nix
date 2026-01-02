@@ -321,9 +321,11 @@ options:
                         code is passed as a set of flake inputs. Requires
                         --flake or --no-default. (default: False)
   --use-flake-input-rev
-                        Hardcode the commit of the github repo in the flake
-                        input. Has only an effect if used together with
-                        --fetch-in-flake-inputs and --flake (default: False)
+                        Hardcode the github commit of each repo in the flake
+                        inputs. The commit is determined by the git repo from
+                        which the package.xml was taken. Has only an effect if
+                        used together with --fetch-in-flake-inputs and --flake
+                        (default: False)
   --use-per-package-src
                         When using --fetch, fetch only the package sub-
                         directory instead of the whole repo. For repos with

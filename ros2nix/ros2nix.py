@@ -375,8 +375,9 @@ def ros2nix(args):
     parser.add_argument(
         "--use-flake-input-rev",
         action="store_true",
-        help="Hardcode the commit of the github repo in the flake input."
-             " Has only an effect if used together with --fetch-in-flake-inputs and --flake",
+        help="Hardcode the github commit of each repo in the flake inputs. "
+             "The commit is determined by the git repo from which the package.xml was taken. "
+             "Has only an effect if used together with --fetch-in-flake-inputs and --flake",
     )
 
     parser.add_argument(
